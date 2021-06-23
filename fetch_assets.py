@@ -4,7 +4,7 @@ from PIL import Image, ImageFile
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-#@Allow_Retries_Async
+@Allow_Retries_Async
 async def downloadFile(args):
   url, filepath, filetype = args
 
@@ -53,7 +53,7 @@ def getDownloadLinksFromArticles(articles, date):
   for article in articles:
     links = [
       getDownloadInfoTuple(element, date) 
-      for element in article['content_elements'] 
+      for element in article.get('content_elements', [])
       if 'url' in element
     ]
     promo_item = article.get('promo_items', {}).get('basic', None)

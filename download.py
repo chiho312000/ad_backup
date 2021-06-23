@@ -113,7 +113,7 @@ async def main():
     )
     articles.sort(key=lambda x: x['_index'])
 
-    with open(f'./data/{date}.json', 'w') as jsonFile:
+    with open(f'./data/{date}.json', 'w', encoding='utf-8') as jsonFile:
       json.dump(articles, jsonFile, indent=2, ensure_ascii=False)
 
   await requests.close()
