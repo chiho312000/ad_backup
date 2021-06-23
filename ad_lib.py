@@ -40,8 +40,8 @@ def Allow_Retries_Async(fn):
         print(f'Unexpected error {sys.exc_info()[0]} occurred, retrying operations ......')
         retryCount += 1
 
-      await asyncio.sleep(10)
-    raise sys.exc_info()
+      await asyncio.sleep(2)
+    raise OSError('Maximum retries exceeded')
   return wrapper
 
 def Allow_Retries(fn):
@@ -55,7 +55,7 @@ def Allow_Retries(fn):
         sys.exit(0)
       except:
         print(sys.exc_info())
-        print(f'Unexpected error {str(sys.exc_info()[0].with_traceback())} occurred, retrying operations ......')
+        print(f'Unexpected error {str(sys.exc_info()[0])} occurred, retrying operations ......')
         retryCount += 1
 
       time.sleep(10)
