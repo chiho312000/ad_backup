@@ -17,7 +17,7 @@ async def downloadFile(args):
         raise
       with open(targetPath, 'wb') as targetFile:
         while True:
-          segment = await response.content.read(16*1024)
+          segment = await response.content.read(64*1024)
           if not segment: break
           targetFile.write(segment)
 
