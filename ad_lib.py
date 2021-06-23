@@ -32,12 +32,15 @@ def dateGenerator(startDate, endDate):
 def Allow_Retries_Async(fn):
   async def wrapper(*args, **kwargs):
     retryCount = 0
-    while retryCount <= 5:
+    while retryCount <= 20:
       try:
         return await fn(*args, **kwargs)
+      except KeyboardInterrupt:
+        print('Received keyboard interrupt.')
+        sys.exit(0)
       except:
-        print(sys.exc_info())
-        print(f'Unexpected error {sys.exc_info()[0]} occurred, retrying operations ......')
+        #print(sys.exc_info())
+        #print(f'Unexpected error {sys.exc_info()[0]} occurred, retrying operations ......')
         retryCount += 1
 
       await asyncio.sleep(2)
