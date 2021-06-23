@@ -50,6 +50,9 @@ def Allow_Retries(fn):
     while retryCount <= 5:
       try:
         return fn(*args, **kwargs)
+      except KeyboardInterrupt:
+        print('Received keyboard interrupt.')
+        sys.exit(0)
       except:
         print(sys.exc_info())
         print(f'Unexpected error {sys.exc_info()[0]} occurred, retrying operations ......')
