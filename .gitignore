@@ -3,4 +3,4 @@ data
 venv
 .vscode
 __pycache__
-articlesLists.json
+*.json
