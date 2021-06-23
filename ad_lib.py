@@ -59,7 +59,7 @@ def Allow_Retries(fn):
         retryCount += 1
 
       time.sleep(10)
-    raise sys.exc_info()
+    raise sys.exc_info()[0]
   return wrapper
 
 def getRequestInstance(timeout_seconds=60):
