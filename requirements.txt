@@ -1,0 +1,6 @@
+aiohttp
+ffmpeg-python
+tqdm
+bs4
+lxml
+pillow
