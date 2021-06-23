@@ -74,6 +74,9 @@ async def getArticleLists():
 @Allow_Retries_Async
 async def getArticle(url, index):
   async with requests.get(url) as response:
+    if response.status != 200:
+      raise TypeError(f'Response returned with error {response.status}')
+
     html = await response.text()
     if not html: raise TypeError('HTML is null')
     articleRawData = re.search(r'Fusion.globalContent=\s*(.*?)};', html, flags=re.DOTALL)[1]
