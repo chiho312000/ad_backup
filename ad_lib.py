@@ -55,7 +55,7 @@ def Allow_Retries(fn):
         sys.exit(0)
       except:
         print(sys.exc_info())
-        print(f'Unexpected error {sys.exc_info()[0]} occurred, retrying operations ......')
+        print(f'Unexpected error {str(sys.exc_info()[0].with_traceback())} occurred, retrying operations ......')
         retryCount += 1
 
       time.sleep(10)
