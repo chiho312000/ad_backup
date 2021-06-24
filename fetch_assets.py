@@ -1,6 +1,6 @@
 import json, asyncio, os, ffmpeg
 from ad_lib import *
-from PIL import Image, ImageFile
+from PIL import Image, ImageFile, UnidentifiedImageError
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 
@@ -20,13 +20,6 @@ async def downloadFile(args):
           segment = await response.content.read(256*1024)
           if not segment: break
           targetFile.write(segment)
-
-    # Shrink image size.
-    with Image.open(targetPath) as image:
-      compressed = image.convert('RGB')
-      compressed.thumbnail((2000, 2000), Image.LANCZOS)
-
-      compressed.save(targetPath, 'jpeg', optimize=True, quality=90)
 
     return filepath
 
@@ -101,7 +94,7 @@ async def main():
 
   await requests.close()
 
-root_path = './assets/'
+root_path = os.path.join('.', 'assets')
 parser = getArgumentParser('Download assets for AppleDaily articles')
 parser.add_argument('-a', '--ascending', action='store_true', dest='is_ascending', help='Sort the dates in ascending order instead of descending.')
 arguments = parser.parse_args()

@@ -39,8 +39,8 @@ def Allow_Retries_Async(fn):
         print('Received keyboard interrupt.')
         sys.exit(0)
       except:
-        #print(sys.exc_info())
-        #print(f'Unexpected error {sys.exc_info()[0]} occurred, retrying operations ......')
+        print(sys.exc_info())
+        print(f'Unexpected error {sys.exc_info()[0]} occurred, retrying operations ......')
         retryCount += 1
 
       await asyncio.sleep(2)
