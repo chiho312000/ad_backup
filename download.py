@@ -116,7 +116,7 @@ async def main():
     # Download articles using 16 processes.
     print(f'Downloading articles on {date} ......')
     articles = await get_results_with_progress(
-      [getArticle(url.replace('https://hk.appledaily.com', 'https://appledaily-hk-appledaily-prod.cdn.arcpublishing.com'), index) for index, url in enumerate(links) if date in url]
+      [getArticle(url.replace('https://hk.appledaily.com', 'https://appledaily-hk-appledaily-prod.cdn.arcpublishing.com'), index) for index, url in enumerate(links)]
     )
     articles.sort(key=lambda x: x['_index'])
 

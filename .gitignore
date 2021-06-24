@@ -1,5 +1,5 @@
 assets
-assets_playlist
+assets*
 data
 venv
 .vscode
