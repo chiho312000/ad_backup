@@ -65,8 +65,8 @@ def Allow_Retries(fn):
     raise sys.exc_info()[0]
   return wrapper
 
-def getRequestInstance(timeout_seconds=60):
-  connector = aiohttp.TCPConnector(limit=32)
+def getRequestInstance(timeout_seconds=60, limit=32):
+  connector = aiohttp.TCPConnector(limit=limit)
   session = aiohttp.ClientSession(
     connector=connector, 
     timeout=aiohttp.ClientTimeout(total=timeout_seconds)
