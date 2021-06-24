@@ -1,4 +1,4 @@
-import datetime, sys, asyncio, time, argparse, aiohttp
+import datetime, sys, asyncio, time, argparse, aiohttp, traceback
 from tqdm import tqdm
 
 def getArgumentParser(description='Download all assets from AppleDaily'):
@@ -39,8 +39,8 @@ def Allow_Retries_Async(fn):
         print('Received keyboard interrupt.')
         sys.exit(0)
       except:
-        print(sys.exc_info())
         print(f'Unexpected error {sys.exc_info()[0]} occurred, retrying operations ......')
+        traceback.print_tb(sys.exc_info()[2])
         retryCount += 1
 
       await asyncio.sleep(2)
@@ -75,3 +75,6 @@ def getRequestInstance(timeout_seconds=60, limit=32):
 
 async def get_results_with_progress(tasks):
   return [await task for task in tqdm(asyncio.as_completed(tasks), total=len(tasks))]
+
+async def get_results(tasks):
+  return [await task for task in asyncio.as_completed(tasks)]
