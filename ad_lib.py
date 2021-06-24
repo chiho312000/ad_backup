@@ -32,7 +32,7 @@ def dateGenerator(startDate, endDate):
 def Allow_Retries_Async(fn):
   async def wrapper(*args, **kwargs):
     retryCount = 0
-    while retryCount <= 20:
+    while retryCount <= 10:
       try:
         return await fn(*args, **kwargs)
       except KeyboardInterrupt:

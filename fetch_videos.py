@@ -21,10 +21,18 @@ async def downloadClip(url, index):
   return (storage, index)
 
 @Allow_Retries_Async
-async def downloadFile(args):  
-  mapUrl, filepath = args
-  targetPath = os.path.join(root_path, filepath)
+async def downloadFile(args):
+  url, filepath, fileExtension = args
+  if fileExtension == 'ts':
+    return await downloadFromM3U8(url, filepath)
+  else:
+    videoBytesTuple = await downloadClip(url, None)
+    videoBytes = videoBytesTuple[0]
+    with open(filepath, 'wb') as mp4File:
+      mp4File.write(videoBytes.getbuffer())
 
+@Allow_Retries_Async
+async def downloadFromM3U8(mapUrl, filepath):  
   rootUrl = '/'.join(mapUrl.split('/')[:-1])
 
   async with requests.get(mapUrl) as response:
@@ -48,16 +56,17 @@ async def downloadFile(args):
   for clip, index in unorderedClips:
     clips[index] = clip
 
-  with open(targetPath, 'wb') as videoFile:
+  with open(filepath, 'wb') as videoFile:
     [videoFile.write(clip.getbuffer()) for clip in clips]
 
-  return targetPath
+  return filepath
 
 def getDownloadInfoTuple(element, date):
   url = element['url']
-  filename = f"{element['_id']}.ts"
-  filepath = os.path.join('.', date, filename)
-  return (url, filepath)
+  extension = 'ts' if url.split('.')[-1] == 'm3u8' else 'mp4'
+  filename = f"{element['_id']}.{extension}"
+  filepath = os.path.join(root_path, date, filename)
+  return (url, filepath, extension)
 
 def getDownloadLinksFromArticles(articles, date):
   links = []
